@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Menu {
-    managerG menu = new managerG();
+
+    ManageRoom menu = new ManageRoom();
+    ManageCutomer menu1 = new ManageCutomer();
+    ManageInvoice menu2 = new ManageInvoice();
     Scanner scanner = new Scanner(System.in);
     Scanner scanner1 = new Scanner(System.in);
 
@@ -47,19 +50,19 @@ public class Menu {
                                 System.out.println("Nhập giá phòng");
                                 double price1 = scanner.nextInt();
                                 menu.addRoom(new Room(id1, num1, price1));
-                                managerG.writeRoom("dcmm.csv", menu.getListRoom());
+                                ManageRoom.writeRoom("dcmm.csv", menu.getListRoom());
                                 break;
                             case 3:
                                 System.out.println("nhập ID phòng muốn sửa :");
                                 int addID = scanner.nextInt();
                                 menu.editRoom(addID);
-                                managerG.writeRoom("dcmm.csv", menu.getListRoom());
+                                ManageRoom.writeRoom("dcmm.csv", menu.getListRoom());
                                 break;
                             case 4:
                                 System.out.println("nhâ Id phòng muốn xóa :");
                                 int deleteRoom = scanner.nextInt();
                                 menu.deleteRoom(deleteRoom);
-                                managerG.writeRoom("dcmm.csv", menu.getListRoom());
+                                ManageRoom.writeRoom("dcmm.csv", menu.getListRoom());
                                 break;
                             case 5:
                                 showMenu();
@@ -79,7 +82,8 @@ public class Menu {
                         choice1 = scanner.nextInt();
                         switch (choice1) {
                             case 1:
-                                menu.showListInvoice();
+
+                                menu2.showListInvoice();
                                 break;
                             case 2:
                                 menu.printInvoice();
@@ -105,6 +109,7 @@ public class Menu {
                     menu.findRoomByStt(true);
                     break;
                 case 5:
+                    menu.showListRoom();
                     System.out.println(" Mới nhập vào 1 số thông tin ");
                     System.out.println("-Nhập tên khách hàng :");
                     String nameCustomer = scanner1.nextLine();
@@ -112,24 +117,35 @@ public class Menu {
                     String phoneNumbr = scanner1.nextLine();
                     System.out.println("-Nhập ID phòng muốn thuê :");
                     String idRoom = scanner1.nextLine();
-                    if (menu.isIdAlreadyCheckedIn(idRoom)) {
-                        System.out.println("ID đã tồn tại, vui lòng chọn ID khác.");
-                    } else {
+                    if (!menu1.isIdAlreadyCheckedIn(idRoom)) {
                         LocalDate start1 = LocalDate.now();
-                        menu.checkin(new in4(nameCustomer, phoneNumbr, idRoom, start1));
+                        menu1.checkin(new Customer(nameCustomer, phoneNumbr, idRoom, start1));
                         System.out.println("Check-in thành công !!! ");
+                        ManageCutomer.writeIn4("save.csv", menu1.getListIn4());
+                    } else {
+                        System.out.println("Phòng đã có người thuê . Vui lòng chọn ID khác.");
                     }
-                    managerG.writeIn4("saveListIn4.csv", menu.getListIn4());
                     break;
                 case 6:
+                    menu1.showListIn4();
                     System.out.println("Nhập mã hóa đơn muốn checkout ");
-                    String id = scanner1.nextLine();
-                    System.out.println("Nhập vào thời gian checkout (yyyy/mm/dd)");
-                    String checkoutTime = scanner1.nextLine();
-                    System.out.println("---Hóa đơn của bạn---");
-                    menu.checkout(id, LocalDate.parse(checkoutTime));
-                    System.out.println("checkout thành công , cảm ơn ");
-//                    double payment = menu.payment(id, start, checkoutTime);
+                    String idPayment = scanner1.nextLine();
+
+                    if (menu1.isIdAlreadyCheckedOut(idPayment)) {
+
+                        System.out.println("Nhập thời gian checkout (có dạng yyyy-mm-dd)");
+                        String endString = scanner1.nextLine();
+                        LocalDate checkoutTime = LocalDate.parse(endString);
+                        LocalDate checkinTime = menu1.getCheckinTimeById(idPayment);
+                        double payment = menu1.payment(Integer.parseInt(idPayment), checkinTime, checkoutTime);
+                        Customer customer = menu1.findCustomerById(idPayment);
+                        menu2.checkout(new Invoice(customer.getIdR(),customer.getName_customer()
+                                ,customer.getPhoneNumber(),checkinTime,checkoutTime,payment));
+                        ManageInvoice.writeInvoice("chubin.csv",menu2.getListInvoice());
+                        System.out.println("Số tiền thanh toán: " + payment);
+                    } else {
+                        System.out.println("nhưu chubin");
+                    }
                     break;
                 case 7:
                     System.out.println("Chào mừng bạn đến với khách sạn bố đời ");

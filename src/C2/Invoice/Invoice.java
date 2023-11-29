@@ -3,68 +3,81 @@ package C2.Invoice;
 import java.time.LocalDate;
 
 public class Invoice {
-    private String id_invoice;
-    private String room_number;
-    private LocalDate chekcin;
-    private LocalDate chekcout;
-    private double payment_total;
+    private String nameCustomer;
+    private String phoneNumber;
+    private String idRoom;
+    private LocalDate checkInTime;
+    private LocalDate checkOutTime;
+    private double payment;
 
-    public Invoice(String id_invoice, String room_number, LocalDate checkin, LocalDate chekcout) {
-        this.id_invoice = id_invoice;
-        this.room_number = room_number;
-        this.chekcin = checkin;
-        this.chekcout = chekcout;
-        this.payment_total = payment_total;
+    public Invoice(String idRoom, String nameCustomer,
+                   String phoneNumber, LocalDate checkInTime,
+                   LocalDate checkOutTime, double payment) {
+        this.nameCustomer = nameCustomer;
+        this.phoneNumber = phoneNumber;
+        this.idRoom = idRoom;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.payment = payment;
     }
 
-    public String getId_invoice() {
-        return id_invoice;
+    public String getNameCustomer() {
+        return nameCustomer;
     }
 
-    public String getRoom_number() {
-        return room_number;
+    public void setNameCustomer(String nameCustomer) {
+        this.nameCustomer = nameCustomer;
     }
 
-    public LocalDate getChekcin() {
-        return chekcin;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public LocalDate getChekcout() {
-        return chekcout;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public double getPayment_total() {
-        return payment_total;
+    public String getIdRoom() {
+        return idRoom;
     }
 
-    public void setId_invoice(String id_invoice) {
-        this.id_invoice = id_invoice;
+    public void setIdRoom(String idRoom) {
+        this.idRoom = idRoom;
     }
 
-    public void setRoom_number(String room_number) {
-        this.room_number = room_number;
+    public LocalDate getCheckInTime() {
+        return checkInTime;
     }
 
-    public void setChekcin(LocalDate chekcin) {
-        this.chekcin = chekcin;
+    public void setCheckInTime(LocalDate checkInTime) {
+        this.checkInTime = checkInTime;
     }
 
-    public void setChekcout(LocalDate chekcout) {
-        this.chekcout = chekcout;
+    public LocalDate getCheckOutTime() {
+        return checkOutTime;
     }
 
-    public void setPayment_total(double payment_total) {
-        this.payment_total = payment_total;
+    public void setCheckOutTime(LocalDate checkOutTime) {
+        this.checkOutTime = checkOutTime;
+    }
+
+    public double getPayment() {
+        return payment;
+    }
+
+    public void setPayment(double payment) {
+        this.payment = payment;
     }
 
     @Override
     public String toString() {
-        return "C2.Invoice{" +
-                "id_invoice='" + id_invoice + '\'' +
-                ", room_number='" + room_number + '\'' +
-                ", chekcin=" + chekcin +
-                ", chekcout=" + chekcout +
-                ", payment_total=" + payment_total +
+        return "Invoice{" +
+                "nameCustomer='" + nameCustomer + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", idRoom='" + idRoom + '\'' +
+                ", checkInTime=" + checkInTime +
+                ", checkOutTime=" + checkOutTime +
+                ", payment=" + payment +
                 '}';
     }
 }
